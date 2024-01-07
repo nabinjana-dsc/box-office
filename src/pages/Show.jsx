@@ -1,33 +1,39 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getShowById } from '../api/tvmaza';
 
-const Show = () => {
-    const { showId } = useParams();
+const useShowById = showId => {
+  const [showData, setShowData] = useState(null);
+  const [showError, setShowError] = useState(null);
 
-    const [showData, setShowData] = useState(null);
-    const [showError, setShowError] = useState(null);
 
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const data = await getShowById(showId);
-          setShowData(data);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getShowById(showId);
+        setShowData(data);
       } catch (err) {
         setShowError(err);
       }
     }
 
-      fetchData()
-    }, [showId])
+    fetchData();
+  }, [showId]);
 
-    if(showError) {
-      return <div>We have an error: {showError.message}</div>;
-    }
+  return { showData, showError };
+};
 
-    if(showData) {
-      return <div>Show page for show {showData.name}</div>;
-    }
+const Show = () => {
+  const { showId } = useParams();
+  const { showData, showError } = useShowById(showId);
+
+  if (showError) {
+    return <div>We have an error: {showError.message}</div>;
+  }
+
+  if (showData) {
+    return <div>Show page for show {showData.name}</div>;
+  }
 
   return <div>Data is loading</div>;
 };
