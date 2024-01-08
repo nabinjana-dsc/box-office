@@ -1,29 +1,42 @@
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { searchForShows, searchForPeople } from '../api/tvmaza';
 import SearchForm from '../components/SearchForm';
 import ShowGrid from '../components/shows/ShowGrid';
 import ActorsGrid from '../components/actors/ActorsGrid';
 
 const Home = () => {
-  const [apiData, setApiData] = useState(null);
-  const [apiDataError, setApiDataError] = useState(null);
+  const [filter, setFilter] = useState(null);
+
+  const { data: apiData, error: apiDataError } = useQuery({
+    queryKey: ['search', filter],
+    queryFn: () => filter.searchOption === 'shows' ? searchForShows(filter.q) : searchForPeople(filter.q),
+    // ⬇️ disabled as long as the filter is empty
+    enabled: !!filter,
+    refetchOnWindowFocus: false,
+  });
+
+  // const [apiData, setApiData] = useState(null);
+  // const [apiDataError, setApiDataError] = useState(null);
 
   const onSearch = async ({ q, searchOption }) => {
-    try {
-      setApiDataError(null);
+    setFilter({ q, searchOption })
+    
+    // try {
+    //   setApiDataError(null);
 
-      let result;
+    //   let result;
 
-      if (searchOption === 'shows') {
-        result = await searchForShows(q);
-      } else {
-        result = await searchForPeople(q);
-      }
+    //   if (searchOption === 'shows') {
+    //     result = await searchForShows(q);
+    //   } else {
+    //     result = await searchForPeople(q);
+    //   }
 
-      setApiData(result);
-    } catch (error) {
-      setApiDataError(error);
-    }
+    //   setApiData(result);
+    // } catch (error) {
+    //   setApiDataError(error);
+    // }
   };
 
   const renderApiData = () => {
@@ -31,7 +44,7 @@ const Home = () => {
       return <div>An error occurred: {apiDataError.message}</div>;
     }
 
-    if(apiData?.length === 0) {
+    if (apiData?.length === 0) {
       return <div>No results found</div>;
     }
 
