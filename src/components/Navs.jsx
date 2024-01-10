@@ -7,7 +7,7 @@ const LINKS = [
     to: '/',
   },
   {
-    text: 'starred',
+    text: 'Starred',
     to: '/starred',
   },
 ];
