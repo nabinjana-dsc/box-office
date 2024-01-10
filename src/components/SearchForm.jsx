@@ -1,14 +1,11 @@
 import { useState } from 'react';
+import { useSearchStr } from '../lib/useSearchStr';
+
 
 
 const SearchForm = ({ onSearch }) => {
-  const [searchStr, setSearchStr] = useState('');
+  const [searchStr, setSearchStr] = useSearchStr();
   const [searchOption, setSearchOption] = useState('shows');
-
-  // 1) mounts
-  // 2) rerender
-  // 3) unmount
-
 
 
   const onSearchInputChange = ev => {
