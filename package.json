@@ -2,8 +2,10 @@
   "name": "box-office",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://nabinjana-dsc.github.io/box-office",
   "dependencies": {
     "@tanstack/react-query": "^5.17.9",
+    "gh-pages": "^6.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.1",
@@ -28,7 +30,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*.{js,jsz}"
+    "format": "prettier --write src/**/*.{js,jsz}",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
