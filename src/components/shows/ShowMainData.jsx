@@ -19,7 +19,7 @@ const ShowMainData = ({ image, name, rating, summary, genres }) => {
           </div>
         </Headline>
 
-        <summery dangerouslySetInnerHTML={{ __html: summary }} />
+        <Summary dangerouslySetInnerHTML={{ __html: summary }} />
 
         <div>
           Genres:
